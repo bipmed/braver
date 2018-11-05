@@ -1,0 +1,55 @@
+---
+title: "Bioconductor package for exploring BIPMed genomic datasets through BraVE API"
+author:
+    - "Welliton de Souza"
+    - "Benilton Carvalho"
+package: braver
+output: 
+    BiocStyle::html_document
+vignette: >
+    %\VignetteIndexEntry{Vignette Title}
+    %\VignetteEngine{knitr::rmarkdown}
+    %\VignetteEncoding{UTF-8}  
+---
+
+```{r style, echo = FALSE, results = 'asis'}
+BiocStyle::markdown()
+```
+
+# Queries
+
+```{r, eval=FALSE}
+Query(geneSymbol = "SCN1A")
+Query(referenceName = 1, start = 65000, end = 70000)
+Query(referenceName = 1, start = 7737651)
+Query(snpId = "rs35735053")
+```
+
+# Search
+
+```{r, eval=FALSE}
+search(Query(geneSymbol = "SCN1A"))
+search(Query(referenceName = 1, start = 65000, end = 70000))
+search(Query(referenceName = 1, start = 7737651))
+search(Query(snpId = "rs35735053"))
+```
+
+# Pagination
+
+```{r, eval=FALSE}
+search(Query(geneSymbol = "SCN1A"), start = 1, length = 10)
+search(Query(geneSymbol = "SCN1A"), start = 11, length = 10)
+```
+
+# Type conversions
+
+```{r, eval=FALSE}
+variants <- search(Query(geneSymbol = "SCN1A"))
+do.call(rbind, lapply(variants, as.data.frame))
+```
+
+# Session info {.unnumbered}
+
+```{r sessionInfo, echo=FALSE}
+sessionInfo()
+```
