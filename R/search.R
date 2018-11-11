@@ -26,7 +26,7 @@ search.Query <- function(
     x,
     start = 1,
     length = -1,
-    URL = "https://bcbcloud.fcm.unicamp.br/bipmed/datatables"
+    URL = "https://bcbcloud.fcm.unicamp.br/braver/search"
 )
 {
     class(x) <- NULL
