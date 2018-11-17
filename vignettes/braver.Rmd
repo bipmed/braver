@@ -1,52 +1,76 @@
 ---
 title: "Bioconductor package for exploring BIPMed genomic datasets through BraVE API"
 author:
-    - "Welliton de Souza"
-    - "Benilton Carvalho"
+- name: Welliton de Souza
+  affiliation: University of Campinas
+  email: well309@gmail.com
+- name: Benilton Carvalho
+  affiliation: University of Campinas
 package: braver
 output: 
     BiocStyle::html_document
-vignette: >
-    %\VignetteIndexEntry{Vignette Title}
+abstract: |
+    BraVE - BIPMed Variant Explorer is a web application for
+    exploration of the Brazilian Initiative on Precision Medicine (BIPMed)
+    genomic datasets. It also provides a application prograaming interface
+    (API) for searching these datasets. The braver package consumes this API.
+vignette: |
+    %\VignetteIndexEntry{Bioconductor package for exploring BIPMed genomic datasets through BraVE API}
     %\VignetteEngine{knitr::rmarkdown}
-    %\VignetteEncoding{UTF-8}  
+    %\VignetteEncoding{UTF-8}
 ---
 
-```{r style, echo = FALSE, results = 'asis'}
-BiocStyle::markdown()
+# BraVE - BIPMed Variant Explorer
+
+# Searching for variants
+
+```{r load-pkgs, message=FALSE}
+library(braver)
+library(dplyr)
+library(knitr)
+library(DT)
 ```
 
-# Queries
+First, let's search for _SCN1A_ gene. It is case-insensitive.
 
-```{r, eval=FALSE}
-Query(geneSymbol = "SCN1A")
-Query(referenceName = 1, start = 65000, end = 70000)
-Query(referenceName = 1, start = 7737651)
-Query(snpId = "rs35735053")
+```{r search-genes}
+search_brave("scn1a") %>%
+    datatable(options = list(scrollX = TRUE), rownames = FALSE)
 ```
 
-# Search
+The returned `data.frame` contains all genomic information exposed by BraVE API. The table below correlates each column with BraVE web interface and Variant Call Format (VCF) fields.
 
-```{r, eval=FALSE}
-search(Query(geneSymbol = "SCN1A"))
-search(Query(referenceName = 1, start = 65000, end = 70000))
-search(Query(referenceName = 1, start = 7737651))
-search(Query(snpId = "rs35735053"))
+```{r table, echo=FALSE}
+data_frame(
+    "Column" = c("referenceName", "start", "referenceBases", "alternateBases", "snpIds", "alleleFrequency", "geneSymbol", "hgvs", "clnsig", "coverage", "genotypeQuality", "datasetId", "totalSamples", "assemblyId"),
+    "Name" = c("Chromosome", "Position", "Reference", "Alternative", "dbSNP", "Frequency", "Genes", "HGVS Notations", "Clinical Significance", "Coverage", "Genotype Quality", "Dataset", "Samples", "Assembly"),
+    "VCF" = c("CHROM", "POS", "REF", "ALT", "ID", "AF", "ANN 4", "ANN 10", "CLNSIG", "DP", "GQ", "-", "-", "-")
+) %>% kable()
+```
+
+It is also possible to search for genomic regions (`1:65000-70000`), genomic position (`1:7737651`), and dbSNP ID (`rs35735053`). The search engine supports multiple queries with mixed type.
+
+```{r search-mixed}
+search_brave(c("SCN1A", "1:65000-70000", "1:7737651", "rs35735053")) %>%
+    nrow()
 ```
 
 # Pagination
 
-```{r, eval=FALSE}
-search(Query(geneSymbol = "SCN1A"), start = 1, length = 10)
-search(Query(geneSymbol = "SCN1A"), start = 11, length = 10)
+Some queries may return many variants. By default, **braver** will retrieve all data but it this behavior can be changed by defining `length` parameter. Change `start` (1-based) parameter to iterate over variants.
+
+```{r search-pagination}
+selection <- c("referenceName", "start", "referenceBases", "alternateBases")
+search_brave("SCN1A", length = 2) %>%
+    select(selection) %>%
+    kable()
+
+search_brave("SCN1A", length = 2, start = 3) %>%
+    select(selection) %>%
+    kable()
 ```
 
-# Type conversions
-
-```{r, eval=FALSE}
-variants <- search(Query(geneSymbol = "SCN1A"))
-do.call(rbind, lapply(variants, as.data.frame))
-```
+# Internal classes
 
 # Session info {.unnumbered}
 

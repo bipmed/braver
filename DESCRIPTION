@@ -15,7 +15,10 @@ LazyData: true
 URL: https://github.com/bipmed/braver
 BugReports: https://github.com/bipmed/braver/issues
 RoxygenNote: 6.1.0
-Imports: httr, jsonlite
-Suggests: BiocStyle, knitr, rmarkdown
+Imports: httr, jsonlite,
+    stringr,
+    dplyr
+Suggests: BiocStyle, knitr, rmarkdown,
+    testthat
 VignetteBuilder: knitr
 Encoding: UTF-8

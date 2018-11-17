@@ -24,10 +24,12 @@ referenceName: ", x$referenceName, "
 start: ", x$start, "
 referenceBases: ", x$referenceBases, "
 alternateBases: ", paste(x$alternateBases, collapse = ","), "
-geneSymbol: ", x$geneSymbol, "
+geneSymbol: ", paste(x$geneSymbol, collapse = ", "), "
 alleleFrequency: ", paste(x$alleleFrequency, collapse = ","), "
 sampleCount: ",x$sampleCount, "
 coverage: ", pasteStats(x$coverage), "
 genotypeQuality: ", pasteStats(x$genotypeQuality), "
-clnsig: ", paste(x$clnsig, collapse = ","), sep="")
+clnsig: ", paste(x$clnsig, collapse = ", "), "
+hgvs: ", paste(x$hgvs, collapse = ", "), "
+type: ", paste(x$type, collapse = ", "), sep="")
 }

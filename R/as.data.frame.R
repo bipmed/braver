@@ -13,23 +13,34 @@ as.data.frame.Query <- function(x)
 }
 
 #' @export
-as.data.frame.Variant <- function(x)
+as_data_frame.Variant <- function(x)
 {
-    df <- data.frame(
-        snpIds = getOrNA(unlist(x$snpIds)),
-        datasetId = getOrNA(x$datasetId),
-        assemblyId = getOrNA(x$assemblyId),
-        totalSamples = getOrNA(x$totalSamples),
+    data_frame(
         referenceName = getOrNA(x$referenceName),
         start = getOrNA(x$start),
         referenceBases = getOrNA(x$referenceBases),
-        alternateBases = unlist(getOrNA(x$alternateBases)),
+        alternateBases = getOrNA(x$alternateBases),
+        snpIds = getOrNA(x$snpIds),
+        
+        alleleFrequency = getOrNA(x$alleleFrequency),
+        totalSamples = getOrNA(x$totalSamples),
+        
+        hgvs = getOrNA(x$hgvs),
+        type = getOrNA(x$type),
+        clnsig = getOrNA(x$clnsig),
+        
+        coverage = getOrNA(x$coverage),
+        genotypeQuality = getOrNA(x$genotypeQuality),
+        
         geneSymbol = getOrNA(x$geneSymbol),
-        alleleFrequency = unlist(getOrNA(x$alleleFrequency)),
-        sampleCount = getOrNA(x$sampleCount),
-        clnsig = getOrNA(unlist(x$clnsig))
+        datasetId = getOrNA(x$datasetId),
+        assemblyId = getOrNA(x$assemblyId)
     )
-    df$coverage <- list(unlist(x$coverage))
-    df$genotypeQuality <- list(unlist(x$genotypeQuality))
-    df
+}
+
+#' @export
+as.data.frame.Variant <- function(x)
+{
+    as_data_frame(x) %>%
+        as.data.frame()
 }

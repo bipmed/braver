@@ -14,6 +14,8 @@
 #' @param coverage Distribution of coverage (VCF \code{DP} field)
 #' @param genotypeQuality Distribution of genotype quality (VCF \code{GQ} field)
 #' @param clnsig Clinical significance (Annotated VCF \code{CLNSIG} column)
+#' @param hgvs Variant using HGVS notation - DNA level (Annotated VCF \code{ANN} field)
+#' @param type Feature type - e.g. transcript, motif, miRNA, etc. (Annotated VCF \code{ANN} field)
 #'
 #' @return a \code{Variant} object.
 #' @export
@@ -31,7 +33,9 @@ Variant <- function(
     sampleCount,
     coverage,
     genotypeQuality,
-    clnsig
+    clnsig,
+    hgvs,
+    type
 )
 {
     structure(
@@ -49,7 +53,9 @@ Variant <- function(
             sampleCount = sampleCount,
             coverage = coverage,
             genotypeQuality = genotypeQuality,
-            clnsig = clnsig
+            clnsig = clnsig,
+            hgvs = hgvs,
+            type = type
         )),
         class = "Variant"
     )  

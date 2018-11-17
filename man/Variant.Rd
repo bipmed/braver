@@ -6,7 +6,7 @@
 \usage{
 Variant(snpIds, datasetId, assemblyId, totalSamples, referenceName, start,
   referenceBases, alternateBases, geneSymbol, alleleFrequency, sampleCount,
-  coverage, genotypeQuality, clnsig)
+  coverage, genotypeQuality, clnsig, hgvs, type)
 }
 \arguments{
 \item{snpIds}{Variant IDs}
@@ -36,6 +36,10 @@ Variant(snpIds, datasetId, assemblyId, totalSamples, referenceName, start,
 \item{genotypeQuality}{Distribution of genotype quality (VCF \code{GQ} field)}
 
 \item{clnsig}{Clinical significance (Annotated VCF \code{CLNSIG} column)}
+
+\item{hgvs}{Variant using HGVS notation - DNA level (Annotated VCF \code{ANN} field)}
+
+\item{type}{Feature type - e.g. transcript, motif, miRNA, etc. (Annotated VCF \code{ANN} field)}
 }
 \value{
 a \code{Variant} object.

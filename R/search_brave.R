@@ -1,39 +1,38 @@
-#' Search for variants given a query.
+#' Search BraVE server.
 #'
-#' @return a list of \code{Variant} objects.
-#' @export
-#'
-#' @rdname search
-#' @export
-search <- function(x, ...)
-{
-    UseMethod("search", x)
-}
-
-#' @param x \code{Query} object
+#' @param queries gene symbols, genomic ranges, genomic position, dbSNP ID, mixed
 #' @param start 1-based page begin
 #' @param length page length - \code{-1} for all variants (default)
 #' @param URL server API endpoint - default to BraVE server
+#' @param simplify return \code{data.frame} (default), otherwise list of \code{Variant} objects.
 #' @examples
-#' search(Query(geneSymbol = "SCN1A"), start = 1, length = 10)
-#' search(Query(geneSymbol = "SCN1A"), start = 11, length = 10)
-#' search(Query(referenceName = 1, start = 65000, end = 70000))
-#' search(Query(referenceName = 1, start = 7737651))
-#' search(Query(snpId = "rs35735053"))
-#' @rdname search
+#' search_brave("SCN1A", start = 1, length = 10)
+#' search_brave("scn1a", start = 11, length = 10)
+#' search_brave("1:65000-70000")
+#' search_brave("1:7737651")
+#' search_brave("rs35735053")
+#' search_brave(c("SCN1A", "1:65000-70000", "1:7737651", "rs35735053"))
+#' @return variants which match the search queries
 #' @export
-search.Query <- function(
-    x,
+search_brave <- function(
+    queries,
     start = 1,
     length = -1,
-    URL = "https://bcbcloud.fcm.unicamp.br/braver/search"
+    URL = "https://bcbcloud.fcm.unicamp.br/brave/search",
+    simplify = TRUE
 )
 {
-    class(x) <- NULL
+    queries <- lapply(queries, function(query) {
+        if (is.character(query)) {
+            query <- parseQuery(query)
+        }
+        query[lengths(query) != 0]
+    })
+    
     body <- list(
         start = start - 1,
         length = length,
-        queries = list(x[lengths(x) != 0])
+        queries = queries
     )
     
     response <- httr::POST(
@@ -45,7 +44,7 @@ search.Query <- function(
     )
     
     if (httr::http_error(response)) {
-        stop(paste0("Cromwell API request failed.
+        stop(paste0("BraVE API request failed.
 Code: ", httr::status_code(response), "
 Message: ", jsonlite::fromJSON(httr::content(response, "text"))$message), call. = FALSE)
     }
@@ -56,7 +55,7 @@ Message: ", jsonlite::fromJSON(httr::content(response, "text"))$message), call. 
     
     content <- jsonlite::fromJSON(httr::content(response, "text"), simplifyVector = FALSE)
     
-    lapply(content$data, function(x) {
+    results <- lapply(content$data, function(x) {
         Variant(
             snpIds = x$snpIds,
             datasetId = x$datasetId,
@@ -71,7 +70,15 @@ Message: ", jsonlite::fromJSON(httr::content(response, "text"))$message), call. 
             sampleCount = x$sampleCount,
             coverage = x$coverage,
             genotypeQuality = x$genotypeQuality,
-            clnsig = x$clnsig
+            clnsig = x$clnsig,
+            hgvs = x$hgvs,
+            type = x$type
         )
     })
+    
+    if (simplify) {
+        dplyr::bind_rows(lapply(results, as_data_frame))
+    } else {
+        results
+    }
 }
