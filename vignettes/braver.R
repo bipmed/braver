@@ -3,6 +3,7 @@ library(braver)
 library(dplyr)
 library(knitr)
 library(DT)
+library(GenomicRanges)
 
 ## ----search-genes----------------------------------------------------------
 search_brave("scn1a") %>%

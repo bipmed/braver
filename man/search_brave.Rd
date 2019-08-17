@@ -4,12 +4,16 @@
 \alias{search_brave}
 \title{Search BraVE server.}
 \usage{
-search_brave(queries, start = 1, length = -1,
-  URL = "https://bcbcloud.fcm.unicamp.br/brave/search",
+search_brave(queries, datasetId = NULL, assemblyId = NULL, start = 1,
+  length = -1, URL = "https://bcbcloud.fcm.unicamp.br/brave/search",
   simplify = TRUE)
 }
 \arguments{
 \item{queries}{gene symbols, genomic ranges, genomic position, dbSNP ID, mixed}
+
+\item{datasetId}{dataset ID, \code{NULL} for all datasets (default)}
+
+\item{assemblyId}{reference genome version, \code{NULL} for any version (default)}
 
 \item{start}{1-based page begin}
 
@@ -28,8 +32,8 @@ Search BraVE server.
 \examples{
 search_brave("SCN1A", start = 1, length = 10)
 search_brave("scn1a", start = 11, length = 10)
-search_brave("1:65000-70000")
-search_brave("1:7737651")
+search_brave("1:65000-70000", datasetId = "bipmed-wes-phase2")
+search_brave("1:7737651", assemblyId = "GRCh37")
 search_brave("rs35735053")
 search_brave(c("SCN1A", "1:65000-70000", "1:7737651", "rs35735053"))
 }

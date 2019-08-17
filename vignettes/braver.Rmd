@@ -29,6 +29,7 @@ library(braver)
 library(dplyr)
 library(knitr)
 library(DT)
+library(GenomicRanges)
 ```
 
 First, let's search for _SCN1A_ gene. It is case-insensitive.

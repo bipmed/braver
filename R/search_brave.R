@@ -1,6 +1,8 @@
 #' Search BraVE server.
 #'
 #' @param queries gene symbols, genomic ranges, genomic position, dbSNP ID, mixed
+#' @param datasetId dataset ID, \code{NULL} for all datasets (default)
+#' @param assemblyId reference genome version, \code{NULL} for any version (default)
 #' @param start 1-based page begin
 #' @param length page length - \code{-1} for all variants (default)
 #' @param URL server API endpoint - default to BraVE server
@@ -8,14 +10,16 @@
 #' @examples
 #' search_brave("SCN1A", start = 1, length = 10)
 #' search_brave("scn1a", start = 11, length = 10)
-#' search_brave("1:65000-70000")
-#' search_brave("1:7737651")
+#' search_brave("1:65000-70000", datasetId = "bipmed-wes-phase2")
+#' search_brave("1:7737651", assemblyId = "GRCh37")
 #' search_brave("rs35735053")
 #' search_brave(c("SCN1A", "1:65000-70000", "1:7737651", "rs35735053"))
 #' @return variants which match the search queries
 #' @export
 search_brave <- function(
     queries,
+    datasetId = NULL,
+    assemblyId = NULL,
     start = 1,
     length = -1,
     URL = "https://bcbcloud.fcm.unicamp.br/brave/search",
@@ -24,7 +28,7 @@ search_brave <- function(
 {
     queries <- lapply(queries, function(query) {
         if (is.character(query)) {
-            query <- parseQuery(query)
+            query <- parseQuery(query, datasetId, assemblyId)
         }
         query[lengths(query) != 0]
     })
