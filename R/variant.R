@@ -1,9 +1,10 @@
 #' Create \code{Variant} object. Internal use.
 #'
-#' @param snpIds Variant IDs
+#' @param id Variant ID
 #' @param datasetId Dataset ID
-#' @param assemblyId Reference genome version
 #' @param totalSamples Total samples in dataset
+#' @param assemblyId Reference genome version
+#' @param snpIds IDs from dbSNP
 #' @param referenceName Chromosome (VCF \code{CHROM} column)
 #' @param start 0-based start position (VCF \code{POS} column)
 #' @param referenceBases Reference bases (VCF \code{REF} column)
@@ -20,10 +21,11 @@
 #' @return a \code{Variant} object.
 #' @export
 Variant <- function(
-    snpIds,
+    id,
     datasetId,
-    assemblyId,
     totalSamples,
+    assemblyId,
+    snpIds,
     referenceName,
     start,
     referenceBases,
@@ -40,10 +42,11 @@ Variant <- function(
 {
     structure(
         c(list(
-            snpIds = snpIds,
+            id = id,
             datasetId = datasetId,
-            assemblyId = assemblyId,
             totalSamples = totalSamples,
+            assemblyId = assemblyId,
+            snpIds = snpIds,
             referenceName = referenceName,
             start = start,
             referenceBases = referenceBases,

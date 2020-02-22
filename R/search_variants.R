@@ -8,16 +8,16 @@
 #' @param URL server API endpoint - default to BraVE server
 #' @param simplify return \code{data.frame} (default), otherwise list of \code{Variant} objects.
 #' @examples
-#' search_brave("SCN1A", start = 1, length = 10)
-#' search_brave("scn1a", start = 11, length = 10)
-#' search_brave("1:65000-70000", datasetId = "bipmed-wes-phase2")
-#' search_brave("1:7737651", assemblyId = "GRCh37")
-#' search_brave("rs35735053")
-#' search_brave(c("SCN1A", "1:65000-70000", "1:7737651", "rs35735053"))
+#' search_variants("SCN1A", start = 1, length = 10)
+#' search_variants("scn1a", start = 11, length = 10)
+#' search_variants("1:65000-70000", datasetId = "bipmed-wes-phase2")
+#' search_variants("1:7737651", assemblyId = "GRCh37")
+#' search_variants("rs35735053")
+#' search_variants(c("SCN1A", "1:65000-70000", "1:7737651", "rs35735053"))
 #' @return variants which match the search queries
 #' @export
-search_brave <- function(
-    queries,
+search_variants <- function(
+    queries = NULL,
     datasetId = NULL,
     assemblyId = NULL,
     start = 1,

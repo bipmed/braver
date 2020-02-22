@@ -14,7 +14,7 @@ License: MIT
 LazyData: true
 URL: https://github.com/bipmed/braver
 BugReports: https://github.com/bipmed/braver/issues
-RoxygenNote: 6.1.0
+RoxygenNote: 7.0.2
 Imports: httr, jsonlite,
     stringr,
     dplyr

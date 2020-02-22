@@ -4,9 +4,15 @@
 \alias{Query}
 \title{Create \code{Query} object.}
 \usage{
-Query(datasetId = NULL, assemblyId = NULL, snpId = NULL,
-  referenceName = NULL, start = NULL, end = NULL,
-  geneSymbol = NULL)
+Query(
+  datasetId = NULL,
+  assemblyId = NULL,
+  snpId = NULL,
+  referenceName = NULL,
+  start = NULL,
+  end = NULL,
+  geneSymbol = NULL
+)
 }
 \arguments{
 \item{datasetId}{Dataset ID - \code{bipmed-wes-phase2}}

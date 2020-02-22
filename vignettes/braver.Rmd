@@ -32,11 +32,18 @@ library(DT)
 library(GenomicRanges)
 ```
 
+To start exploring genomic variants, simply call `search` function.
+
+```{r search}
+search_variants()
+```
+
+It will return the first genomic variants from server. BraVE server limits search results to 100 variants for each page.
+
 First, let's search for _SCN1A_ gene. It is case-insensitive.
 
 ```{r search-genes}
-search_brave("scn1a") %>%
-    datatable(options = list(scrollX = TRUE), rownames = FALSE)
+search_variants("scn1a")
 ```
 
 The returned `data.frame` contains all genomic information exposed by BraVE API. The table below correlates each column with BraVE web interface and Variant Call Format (VCF) fields.

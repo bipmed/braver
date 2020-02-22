@@ -4,18 +4,36 @@
 \alias{Variant}
 \title{Create \code{Variant} object. Internal use.}
 \usage{
-Variant(snpIds, datasetId, assemblyId, totalSamples, referenceName, start,
-  referenceBases, alternateBases, geneSymbol, alleleFrequency, sampleCount,
-  coverage, genotypeQuality, clnsig, hgvs, type)
+Variant(
+  id,
+  datasetId,
+  totalSamples,
+  assemblyId,
+  snpIds,
+  referenceName,
+  start,
+  referenceBases,
+  alternateBases,
+  geneSymbol,
+  alleleFrequency,
+  sampleCount,
+  coverage,
+  genotypeQuality,
+  clnsig,
+  hgvs,
+  type
+)
 }
 \arguments{
-\item{snpIds}{Variant IDs}
+\item{id}{Variant ID}
 
 \item{datasetId}{Dataset ID}
 
+\item{totalSamples}{Total samples in dataset}
+
 \item{assemblyId}{Reference genome version}
 
-\item{totalSamples}{Total samples in dataset}
+\item{snpIds}{IDs from dbSNP}
 
 \item{referenceName}{Chromosome (VCF \code{CHROM} column)}
 
